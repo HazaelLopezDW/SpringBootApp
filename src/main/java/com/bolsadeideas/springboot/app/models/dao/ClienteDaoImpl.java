@@ -3,6 +3,7 @@ package com.bolsadeideas.springboot.app.models.dao;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 
@@ -17,9 +18,17 @@ public class ClienteDaoImpl implements IClienteDao {
 
 	
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
 	@Override
 	public List<Cliente> findAll() {
 		return em.createQuery("from Cliente").getResultList();
+	}
+
+
+	@Transactional
+	@Override
+	public void save(Cliente cliente) {
+		em.persist(cliente);
 	}
 
 }
