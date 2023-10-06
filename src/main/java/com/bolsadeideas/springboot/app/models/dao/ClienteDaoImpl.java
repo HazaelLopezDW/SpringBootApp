@@ -19,7 +19,7 @@ public class ClienteDaoImpl implements IClienteDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Cliente> findAll() {
-		return em.createQuery("from cliente").getResultList();
+		return em.createQuery("from Cliente").getResultList();
 	}
 
 }

@@ -13,7 +13,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "clientes")
+@Table(name="clientes")
 public class Cliente implements Serializable {
 
 	@Id
@@ -22,7 +22,8 @@ public class Cliente implements Serializable {
 
 	private String nombre;
 	private String apellido;
-
+	private String email;
+	
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
@@ -53,6 +54,14 @@ public class Cliente implements Serializable {
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Date getCreateAt() {
