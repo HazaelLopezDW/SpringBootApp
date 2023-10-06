@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "clientes")
@@ -22,6 +24,7 @@ public class Cliente implements Serializable {
 	private String apellido;
 
 	@Column(name = "create_at")
+	@Temporal(TemporalType.DATE)
 	private Date createAt;
 
 	
