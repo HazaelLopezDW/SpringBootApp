@@ -14,7 +14,6 @@
 	</head>
 	<body>
 		
-			
 			<nav class="navbar navbar-expand-lg bg-body-tertiary">
 			  <div class="container-fluid">
 			    <a class="navbar-brand" href="#">AppSpringBoot</a>
@@ -40,28 +39,35 @@
 				th:text="${titulo}"
 			>
 			</h1>
-			<hr/>
-			<a th:href="@{/form}">Crear Cliente</a>
-			<table class="table table-striped">
-				<thead>
+			
+			
+			
+			<form th:action="@{/form}" th:object="${cliente}" method="post">
+				<table>
 					<tr>
-						<th>Id</th>
-						<th>Nombre</th>
-						<th>Apellido</th>
-						<th>Email</th>
-						<th>Fecha</th>
+						<td>Nombre</td>
+						<td><input type="text" th:field="*{nombre}" class="form-control" /></td>
 					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="cliente: ${clientes}">
-						<td th:text="${cliente.id}"></td>
-						<td th:text="${cliente.nombre}"></td>
-						<td th:text="${cliente.apellido}"></td>
-						<td th:text="${cliente.email}"></td>
-						<td th:text="${cliente.createAt}"></td>
+					
+					<tr>
+						<td>Apellido</td>
+						<td><input type="text" th:field="*{apellido}" class="form-control"  /></td>
 					</tr>
-				</tbody>
-			</table>
+					
+					
+					<tr>
+						<td>Email</td>
+						<td><input type="text" th:field="*{email}"  class="form-control" /></td>
+					</tr>
+					
+					<tr>
+						<td><input type="submit" value="Crear Cliente"  class="btn btn-primary" /></td>
+					</tr>
+					
+				</table>
+				
+				<input type="hidden" th:field="*{id}" />
+			</form>
 		</div>
 		
 		<script 
