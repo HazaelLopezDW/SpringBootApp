@@ -63,7 +63,8 @@ public class ClienteController {
 	
 	
 	@RequestMapping(value="/form", method=RequestMethod.POST)
-	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, SessionStatus status) {
+	public String guardar(@Valid Cliente cliente, 
+			BindingResult result, Model model, SessionStatus status) {
 		
 		if(result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario De Clientes");
