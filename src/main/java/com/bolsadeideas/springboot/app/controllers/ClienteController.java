@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 import com.bolsadeideas.springboot.app.models.service.IClienteService;
+import com.bolsadeideas.springboot.app.util.paginator.PageRender;
 
 import jakarta.validation.Valid;
 
@@ -36,8 +37,11 @@ public class ClienteController {
 		
 		Page<Cliente> clientes = clienteService.findAll(pageRequest);
 		
+		PageRender<Cliente> pageRender = new PageRender<>("/listar", clientes);
+		
 		model.addAttribute("titulo", "Listado De Clientes");
 		model.addAttribute("clientes", clientes);
+		model.addAttribute("page", pageRender);
 		
 		return "listar";
 	}
