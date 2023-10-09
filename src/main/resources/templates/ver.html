@@ -9,6 +9,11 @@
 				<div class="card-header" th:text="${titulo}"></div>
 				<div class="card-body">
 					
+					<h4>
+						<a class="btn btn-xs btn-primary" th:href="@{'/factura/form/' + ${cliente.id}} + ${cliente.id}"
+									th:text="'Crear Facutara'"></a>
+					</h4>
+					
 					<img
 						th:if="${#strings.length(cliente.foto) > 0}"
 						class="img-thumbnail rounded float-left"
