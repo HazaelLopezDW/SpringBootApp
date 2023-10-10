@@ -13,7 +13,7 @@
 							data: {
 								term: request.term
 							},
-							success: function() {
+							success: function(data) {
 								response($.map(data, function(item){
 									return {
 										value: item.id,
