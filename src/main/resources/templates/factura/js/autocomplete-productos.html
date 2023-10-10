@@ -33,11 +33,19 @@
 						linea = linea.replace(/{PRECIO}/g, ui.item.precio);
 						
 						$("#cargarItemProductos tbody").append(linea);
+						itemsHelper.calcularImporte(ui.item.value, ui.item.precio, 1);
 						
 						return false;
 					}
 				});
 			});
+			
+			let itemsHelper = {
+				calcularImporte: function(id, precio, cantidad) {
+					$("#total_importe_" + id).html(parseInt(precio) * parseInt(cantidad));
+					
+				}
+			}
 			
 		</script>
 	</body>
