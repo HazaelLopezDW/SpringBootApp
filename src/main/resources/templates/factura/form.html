@@ -55,6 +55,18 @@
 					
 					<table th:replace="factura/plantilla-items :: itemsFactura"></table>
 					
+					<table id="cargarItemProductos" class="table table-sm table-striped table-hover mt-4">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Precio</th>
+								<th>Cantidad</th>
+							</tr>
+						</thead>
+						<tbody>	
+						</tbody>
+					</table>
+					
 					<div class="form-group mt-4">
 						<div class="col-sm-6">
 							<input type="submit" th:value="${titulo}" class="form-control btn btn-primary">
