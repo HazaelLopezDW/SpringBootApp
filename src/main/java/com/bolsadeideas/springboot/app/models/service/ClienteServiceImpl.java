@@ -63,7 +63,7 @@ public class ClienteServiceImpl implements IClienteService{
 	@Override
 	public List<Producto> findByName(String term) {
 		// TODO Auto-generated method stub
-		return productoDao.findByName(term);
+		return productoDao.findByNombreLikeIgnoreCase("%" + term + "%");
 	}
 
 }
