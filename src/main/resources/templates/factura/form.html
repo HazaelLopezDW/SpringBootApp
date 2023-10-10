@@ -37,7 +37,7 @@
 							<input type="text" th:field="*{descripcion}" class="form-control" 
 								th:errorclass="'form-control is-invalid'"/>
 								<div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}"
-									th:erros="*{descripcion}"></div>
+									th:errors="*{descripcion}"></div>
 						</div>
 					</div>
 
