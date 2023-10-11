@@ -48,8 +48,11 @@ public class SpringSecurityConfig {
 						.requestMatchers(mvc.pattern("/uploads/**")).hasAnyRole("USER")
 						.requestMatchers(mvc.pattern("/form/**")).hasRole("ADMIN")
 						.requestMatchers(mvc.pattern("/eliminar/**")).hasRole("ADMIN")
-						.requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN").anyRequest().authenticated().and()
-						.formLogin().permitAll().and().logout().permitAll();
+						.requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN").anyRequest().authenticated()
+						.and()
+						.formLogin().permitAll()
+						.and()
+						.logout().permitAll();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
