@@ -50,7 +50,8 @@ public class SpringSecurityConfig {
 						.requestMatchers(mvc.pattern("/eliminar/**")).hasRole("ADMIN")
 						.requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN").anyRequest().authenticated()
 						.and()
-						.formLogin().permitAll()
+						.formLogin().loginPage("/login")
+						.permitAll()
 						.and()
 						.logout().permitAll();
 			} catch (Exception e) {
