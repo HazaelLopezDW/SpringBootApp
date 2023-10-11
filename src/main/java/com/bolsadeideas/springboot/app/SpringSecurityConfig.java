@@ -1,5 +1,6 @@
 package com.bolsadeideas.springboot.app;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,8 +12,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import com.bolsadeideas.springboot.app.auth.handler.LoginSuccesHandler;
+
 @Configuration
 public class SpringSecurityConfig {
+	
+	@Autowired
+	private LoginSuccesHandler successHandler;
 
 	@Bean
 	public static BCryptPasswordEncoder passwordEncoder() {
@@ -50,7 +56,9 @@ public class SpringSecurityConfig {
 						.requestMatchers(mvc.pattern("/eliminar/**")).hasRole("ADMIN")
 						.requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN").anyRequest().authenticated()
 						.and()
-						.formLogin().loginPage("/login")
+						.formLogin()
+						.successHandler(successHandler)
+						.loginPage("/login")
 						.permitAll()
 						.and()
 						.logout().permitAll()
