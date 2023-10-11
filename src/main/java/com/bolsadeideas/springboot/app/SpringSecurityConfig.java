@@ -3,6 +3,7 @@ package com.bolsadeideas.springboot.app;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.bolsadeideas.springboot.app.auth.handler.LoginSuccesHandler;
 
+
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @Configuration
 public class SpringSecurityConfig {
 	
@@ -50,16 +53,17 @@ public class SpringSecurityConfig {
 			try {
 				authz.requestMatchers(mvc.pattern("/"), mvc.pattern("/css/**"), mvc.pattern("/js/**"),
 						mvc.pattern("/images/**"), mvc.pattern("/listar")).permitAll()
-						.requestMatchers(mvc.pattern("/ver/**")).hasAnyRole("USER")
+						/*.requestMatchers(mvc.pattern("/ver/**")).hasAnyRole("USER")
 						.requestMatchers(mvc.pattern("/uploads/**")).hasAnyRole("USER")
 						.requestMatchers(mvc.pattern("/form/**")).hasRole("ADMIN")
 						.requestMatchers(mvc.pattern("/eliminar/**")).hasRole("ADMIN")
-						.requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN").anyRequest().authenticated()
+						.requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN")*/
+						.anyRequest().authenticated()
 						.and()
-						.formLogin()
-						.successHandler(successHandler)
-						.loginPage("/login")
-						.permitAll()
+							.formLogin()
+								.successHandler(successHandler)
+								.loginPage("/login")
+							.permitAll()
 						.and()
 						.logout().permitAll()
 						.and()

@@ -58,6 +58,7 @@ public class ClienteController {
 	@Autowired
 	private IUploadFileService uploadFileService;
 
+	@Secured({"ROLE_USER"})
 	@GetMapping(value = "/uploads/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
 
@@ -75,6 +76,8 @@ public class ClienteController {
 				.body(recurso);
 	}
 
+	// @Secured("ROLE_USER")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping(value = "/ver/{id}")
 	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
 
@@ -144,6 +147,7 @@ public class ClienteController {
 		return "listar";
 	}
 
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/form", method = RequestMethod.GET)
 	public String crear(Map<String, Object> model) {
 
@@ -155,6 +159,9 @@ public class ClienteController {
 		return "form";
 	}
 
+	
+	// @Secured("ROLE_ADMIN")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/form/{id}", method = RequestMethod.GET)
 	public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
 
@@ -177,6 +184,7 @@ public class ClienteController {
 		return "form";
 	}
 
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
 	public String guardar(@Valid Cliente cliente, BindingResult result, Model model,
 			@RequestParam("file") MultipartFile foto, RedirectAttributes flash, SessionStatus status) {
@@ -215,6 +223,8 @@ public class ClienteController {
 		return "redirect:/listar";
 	}
 
+	
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/eliminar/{id}", method = RequestMethod.GET)
 	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
 
