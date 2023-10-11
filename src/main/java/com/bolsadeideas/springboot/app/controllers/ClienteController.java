@@ -2,12 +2,13 @@ package com.bolsadeideas.springboot.app.controllers;
 
 
 import java.io.IOException;
+import java.lang.System.Logger;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -15,8 +16,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,13 +38,14 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 import com.bolsadeideas.springboot.app.models.service.IClienteService;
 import com.bolsadeideas.springboot.app.models.service.IUploadFileService;
 import com.bolsadeideas.springboot.app.util.paginator.PageRender;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-
 @Controller
 @SessionAttributes("cliente")
 public class ClienteController {
@@ -83,20 +93,41 @@ public class ClienteController {
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
-			Authentication authentication) {
+			Authentication authentication, HttpServletRequest request) {
 		
 		if(authentication != null) {
 			logger.info("Hola usuario autenticado, Tu username es: ".concat(
-					authentication.name()
+					authentication.getName()
 			));
 		}
 		
-		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		if(auth != null) {
 			logger.info("Utilizando forma estatica 'SecurityContextHolder.getContext().getAuthentication();' Hola usuario autenticado, Tu username es: ".concat(
 					auth.getName()
 			));
+		}
+		
+		
+		if(hasRole("ROLE_ADMIN")) {
+			logger.info("Hola ".concat(auth.getName()).concat(" Tienes acceso!"));
+		}
+		
+		SecurityContextHolderAwareRequestWrapper securityContext = new SecurityContextHolderAwareRequestWrapper(request, "ROLE_");
+		
+		if(securityContext.isUserInRole("ADMIN")) {
+			logger.info("Hola Forma SecurityContextHolderAwareRequestWrapper ".concat(auth.getName()).concat(" Tienes acceso!"));
+		}else {
+			logger.info("Hola Forma SecurityContextHolderAwareRequestWrapper ".concat(auth.getName()).concat(" No Tienes acceso!"));
+		}
+		
+		
+		
+		if(request.isUserInRole("ROLE_ADMIN")) {
+			logger.info("Hola Forma HttpServletRequest ".concat(auth.getName()).concat(" Tienes acceso!"));
+		}else {
+			logger.info("Hola Forma HttpServletRequest ".concat(auth.getName()).concat(" No Tienes acceso!"));
 		}
 		
 
@@ -199,5 +230,25 @@ public class ClienteController {
 		}
 
 		return "redirect:/listar";
+	}
+	
+	private boolean hasRole(String role) {
+		
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		if(context == null) {
+			return false;
+		}
+		
+		Authentication auth = context.getAuthentication();
+		
+		if(auth == null) {
+			return false;
+		}
+		
+		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+		
+		return authorities.contains(new SimpleGrantedAuthority(role));
+		
 	}
 }
