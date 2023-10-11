@@ -10,9 +10,8 @@
 				<div class="card-body">
 					<h5 class="card-title">
 						Lo Sentimos
-						<span th:text="${#httpServletRequest.remoteUser}">
-							, No tienes permisos para acceder a este recurso
-						</span>
+						<span th:text="${#authentication.name}"></span>
+						, No tienes permisos para acceder a este recurso
 					</h5>
 					<a ht:href="@{/listar}" class="btn btn-outline-light" role="button">
 						Al Inicio
