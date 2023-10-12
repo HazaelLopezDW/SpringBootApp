@@ -20,7 +20,7 @@ public class LoginController {
 		
 		if(principal != null) {
 			flash.addFlashAttribute("info", "Ya has iniciado sesión anteeriormente");
-			return "redirect:/";
+			return "redirect:/listar";
 		}
 		
 		if(error != null) {
