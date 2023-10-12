@@ -37,6 +37,7 @@ public class ClienteServiceImpl implements IClienteService{
 		return (List<Cliente>) clienteDao.findAll();
 	}
 
+	
 	@Override
 	@Transactional
 	public void save(Cliente cliente) {
@@ -44,6 +45,7 @@ public class ClienteServiceImpl implements IClienteService{
 		clienteDao.save(cliente);
 	}
 
+	
 	@Override
 	@Transactional(readOnly=true)
 	public Cliente findOne(Long id) {
@@ -58,6 +60,7 @@ public class ClienteServiceImpl implements IClienteService{
 		return clienteDao.fetchByIdWithFacturas(id);
 	}
 
+	
 	@Override
 	@Transactional
 	public void delete(Long id) {
@@ -65,6 +68,7 @@ public class ClienteServiceImpl implements IClienteService{
 		clienteDao.deleteById(id);
 	}
 
+	
 	@Override
 	@Transactional(readOnly=true)
 	public Page<Cliente> findAll(Pageable pageable) {
@@ -72,6 +76,7 @@ public class ClienteServiceImpl implements IClienteService{
 		return clienteDao.findAll(pageable);
 	}
 
+	
 	@Override
 	@Transactional(readOnly=true)
 	public List<Producto> findByName(String term) {
@@ -86,6 +91,7 @@ public class ClienteServiceImpl implements IClienteService{
 		facturaDao.save(factura);
 	}
 
+	
 	@Override
 	@Transactional(readOnly= true)
 	public Producto findProductoById(Long id) {
@@ -93,6 +99,7 @@ public class ClienteServiceImpl implements IClienteService{
 		return productoDao.findById(id).orElse(null);
 	}
 
+	
 	@Override
 	@Transactional(readOnly= true)
 	public Factura findFacturaById(Long id) {
@@ -100,6 +107,7 @@ public class ClienteServiceImpl implements IClienteService{
 		return facturaDao.findById(id).orElse(null);
 	}
 
+	
 	@Override
 	@Transactional
 	public void deleteFactura(Long id) {
@@ -107,6 +115,7 @@ public class ClienteServiceImpl implements IClienteService{
 		facturaDao.deleteById(id);
 	}
 
+	
 	@Override
 	@Transactional(readOnly= true)
 	public Factura fetchByIdWithClienteWithItemFacturaWithProducto(Long id) {

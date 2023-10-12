@@ -2,7 +2,6 @@ package com.bolsadeideas.springboot.app.controllers;
 
 
 import java.io.IOException;
-import java.lang.System.Logger;
 import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.Map;
@@ -18,7 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,6 +44,8 @@ import com.bolsadeideas.springboot.app.util.paginator.PageRender;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+
+
 @Controller
 @SessionAttributes("cliente")
 public class ClienteController {
@@ -57,6 +57,7 @@ public class ClienteController {
 
 	@Autowired
 	private IUploadFileService uploadFileService;
+	
 
 	@Secured({"ROLE_USER"})
 	@GetMapping(value = "/uploads/{filename:.+}")
@@ -72,14 +73,19 @@ public class ClienteController {
 		}
 
 		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"")
+				.header(
+					HttpHeaders.CONTENT_DISPOSITION, 
+					"attachment; filename=\"" + recurso.getFilename() + "\""
+				)
 				.body(recurso);
 	}
 
-	// @Secured("ROLE_USER")
+	
+	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping(value = "/ver/{id}")
-	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, 
+			RedirectAttributes flash) {
 
 		Cliente cliente = clienteService.fetchByIdWithFacturas(id);
 
@@ -93,9 +99,12 @@ public class ClienteController {
 
 		return "ver";
 	}
+	
+	
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
-	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
+	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, 
+			Model model,
 			Authentication authentication, HttpServletRequest request) {
 		
 		if(authentication != null) {
@@ -120,17 +129,19 @@ public class ClienteController {
 		SecurityContextHolderAwareRequestWrapper securityContext = new SecurityContextHolderAwareRequestWrapper(request, "ROLE_");
 		
 		if(securityContext.isUserInRole("ADMIN")) {
-			logger.info("Hola Forma SecurityContextHolderAwareRequestWrapper ".concat(auth.getName()).concat(" Tienes acceso!"));
+			logger.info("Hola Forma SecurityContextHolderAwareRequestWrapper ".concat(
+							auth.getName()).concat(" Tienes acceso!"));
 		}else {
-			logger.info("Hola Forma SecurityContextHolderAwareRequestWrapper ".concat(auth.getName()).concat(" No Tienes acceso!"));
+			logger.info("Hola Forma SecurityContextHolderAwareRequestWrapper ".concat(
+							auth.getName()).concat(" No Tienes acceso!"));
 		}
 		
-		
-		
 		if(request.isUserInRole("ROLE_ADMIN")) {
-			logger.info("Hola Forma HttpServletRequest ".concat(auth.getName()).concat(" Tienes acceso!"));
+			logger.info("Hola Forma HttpServletRequest ".concat(
+					auth.getName()).concat(" Tienes acceso!"));
 		}else {
-			logger.info("Hola Forma HttpServletRequest ".concat(auth.getName()).concat(" No Tienes acceso!"));
+			logger.info("Hola Forma HttpServletRequest ".concat(
+					auth.getName()).concat(" No Tienes acceso!"));
 		}
 		
 
@@ -146,6 +157,8 @@ public class ClienteController {
 
 		return "listar";
 	}
+	
+	
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/form", method = RequestMethod.GET)
@@ -160,10 +173,11 @@ public class ClienteController {
 	}
 
 	
-	// @Secured("ROLE_ADMIN")
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/form/{id}", method = RequestMethod.GET)
-	public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+	public String editar(@PathVariable(value = "id") Long id, 
+			Map<String, Object> model, RedirectAttributes flash) {
 
 		Cliente cliente = null;
 
@@ -186,8 +200,11 @@ public class ClienteController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
-	public String guardar(@Valid Cliente cliente, BindingResult result, Model model,
-			@RequestParam("file") MultipartFile foto, RedirectAttributes flash, SessionStatus status) {
+	public String guardar(@Valid Cliente cliente, 
+			BindingResult result, 
+			Model model, 
+			@RequestParam("file") MultipartFile foto, 
+			RedirectAttributes flash, SessionStatus status) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario De Clientes");
@@ -196,17 +213,19 @@ public class ClienteController {
 
 		if (!foto.isEmpty()) {
 
-			if (cliente.getId() != null && cliente.getId() > 0 && cliente.getFoto() != null
+			if (cliente.getId() != null 
+					&& cliente.getId() > 0 
+					&& cliente.getFoto() != null
 					&& cliente.getFoto().length() > 0) {
 
 				uploadFileService.delete(cliente.getFoto());
 			}
 
 			String uniqueFilename = null;
+			
 			try {
 				uniqueFilename = uploadFileService.copy(foto);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -215,7 +234,9 @@ public class ClienteController {
 
 		}
 
-		String mensajeFlash = (cliente.getId() != null) ? "Cliente editado con éxito" : "Cliente creado con éxito";
+		String mensajeFlash = (cliente.getId() != null) 
+				? "Cliente editado con éxito" 
+				: "Cliente creado con éxito";
 
 		clienteService.save(cliente);
 		status.setComplete();
@@ -235,12 +256,15 @@ public class ClienteController {
 			flash.addFlashAttribute("success", "Cliente eliminado con éxito");
 
 			if (uploadFileService.delete(cliente.getFoto())) {
-				flash.addFlashAttribute("info", "Foto " + cliente.getFoto() + " Eliminada con éxito!");
+				flash.addFlashAttribute("info", "Foto " + cliente.getFoto() 
+					+ " Eliminada con éxito!");
 			}
 		}
 
 		return "redirect:/listar";
 	}
+	
+	
 	
 	private boolean hasRole(String role) {
 		
@@ -261,4 +285,6 @@ public class ClienteController {
 		return authorities.contains(new SimpleGrantedAuthority(role));
 		
 	}
+	
+	
 }

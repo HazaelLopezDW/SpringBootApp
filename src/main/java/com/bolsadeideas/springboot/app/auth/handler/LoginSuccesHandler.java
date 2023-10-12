@@ -16,7 +16,9 @@ import jakarta.servlet.http.HttpServletResponse;
 public class LoginSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+	public void onAuthenticationSuccess(
+			HttpServletRequest request, 
+			HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
 		SessionFlashMapManager flashMapManager = new SessionFlashMapManager();

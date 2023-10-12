@@ -46,14 +46,18 @@ public class Factura implements Serializable {
 	private List<ItemFactura> items;
 	
 
+	
 	public Factura() {
 		this.items = new ArrayList<ItemFactura>();
 	}
+	
 
 	@PrePersist
 	public void prePersit() {
 		createAt = new Date();
 	}
+	
+	
 	
 	public Long getId() {
 		return id;
@@ -110,9 +114,7 @@ public class Factura implements Serializable {
 	}
 
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	

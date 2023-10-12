@@ -32,10 +32,12 @@ public class SpringSecurityConfig {
 	public UserDetailsService userDetailsService() throws Exception {
 
 		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-		manager.createUser(User.withUsername("jhon").password(passwordEncoder().encode("12345")).roles("USER").build());
+		manager.createUser(User.withUsername("jhon")
+				.password(passwordEncoder().encode("12345")).roles("USER").build());
 
 		manager.createUser(
-				User.withUsername("admin").password(passwordEncoder().encode("admin")).roles("ADMIN", "USER").build());
+				User.withUsername("admin")
+					.password(passwordEncoder().encode("admin")).roles("ADMIN", "USER").build());
 
 		return manager;
 	}
@@ -48,10 +50,12 @@ public class SpringSecurityConfig {
 
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+	public SecurityFilterChain securityFilterChain(
+			HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
 		http.authorizeHttpRequests((authz) -> {
 			try {
-				authz.requestMatchers(mvc.pattern("/"), mvc.pattern("/css/**"), mvc.pattern("/js/**"),
+				authz.requestMatchers(
+						mvc.pattern("/"), mvc.pattern("/css/**"), mvc.pattern("/js/**"),
 						mvc.pattern("/images/**"), mvc.pattern("/listar")).permitAll()
 						/*.requestMatchers(mvc.pattern("/ver/**")).hasAnyRole("USER")
 						.requestMatchers(mvc.pattern("/uploads/**")).hasAnyRole("USER")
