@@ -12,7 +12,7 @@ import jakarta.persistence.UniqueConstraint;
 @Entity
 @Table(
 	name = "authorities", 
-	uniqueConstraints = {@UniqueConstraint(columnNames= {"user_id", "authority"})}
+	uniqueConstraints = {@UniqueConstraint(columnNames={"user_id", "authority"})}
 )
 public class Role implements Serializable {
 

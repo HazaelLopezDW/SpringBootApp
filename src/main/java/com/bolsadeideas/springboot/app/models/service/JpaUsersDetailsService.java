@@ -27,6 +27,7 @@ public class JpaUsersDetailsService implements UserDetailsService {
 	
 	@Autowired
 	private IUsuarioDao usuarioDao;
+	
 
 	@Override
 	@Transactional(readOnly=true)
@@ -49,15 +50,15 @@ public class JpaUsersDetailsService implements UserDetailsService {
 		
 		if(authorities.isEmpty()) {
 			logger.error(
-					"Error: Login: no existe el usuario '" 
+					"Error: Login: usuario '" 
 							+ username + "' No tiene roles asignado");
 			throw new UsernameNotFoundException(
 					"Error: Login: no existe el usuario '" 
 							+ username + "' No tiene roles asignado");
 		}
 		
-		return new User(usuario.getUsername(), usuario.getPassword(), 
-						usuario.getEnabled(), true, true, true, authorities);
+		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), 
+				true, true, true, authorities);
 	}
 
 }

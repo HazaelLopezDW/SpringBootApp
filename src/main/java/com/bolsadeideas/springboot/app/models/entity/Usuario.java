@@ -15,26 +15,24 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name="users")
 public class Usuario implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(length = 30, unique = true)
+	@Column(length=30, unique=true)
 	private String username;
 
-	@Column(length = 60)
+	@Column(length=60)
 	private String password;
 
 	private boolean enabled;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="user_id")
 	private List<Role> roles;
-	
-	
 	
 
 	public Long getId() {
@@ -45,7 +43,6 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	
 
 	public String getUsername() {
 		return username;

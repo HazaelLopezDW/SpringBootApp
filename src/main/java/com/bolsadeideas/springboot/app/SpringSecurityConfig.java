@@ -29,16 +29,12 @@ public class SpringSecurityConfig {
 	
 	@Autowired
 	private JpaUsersDetailsService userDetailService;
-	
-	/*
-	@Autowired
-    private DataSource dataSource;
-	*/
 
 	@Bean
 	MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
 		return new MvcRequestMatcher.Builder(introspector);
 	}
+	
 	
     @Autowired
     public void userDetailsService(AuthenticationManagerBuilder build) throws Exception {
@@ -46,6 +42,7 @@ public class SpringSecurityConfig {
        .passwordEncoder(passwordEncoder);
     }
 
+    
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(
@@ -76,17 +73,4 @@ public class SpringSecurityConfig {
 		});
 		return http.build();
 	}
-	
-	/*
-	@Bean
-    AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder)
-                .usersByUsernameQuery("select username, password, enabled from users where username=?")
-                .authoritiesByUsernameQuery("select u.username, a.authority from authorities a inner join users u on (a.user_id=u.id) where u.username=?")
-                .and().build();
-    }
-	*/
 }
