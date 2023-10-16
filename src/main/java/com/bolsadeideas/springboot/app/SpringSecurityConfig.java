@@ -54,7 +54,8 @@ public class SpringSecurityConfig {
 			try {
 				authz.requestMatchers(
 						mvc.pattern("/"), mvc.pattern("/css/**"), mvc.pattern("/js/**"),
-						mvc.pattern("/images/**"), mvc.pattern("/listar")).permitAll()
+						mvc.pattern("/images/**"), mvc.pattern("/listar"), mvc.pattern("/locale"))
+						.permitAll()
 						/*.requestMatchers(mvc.pattern("/ver/**")).hasAnyRole("USER")
 						.requestMatchers(mvc.pattern("/uploads/**")).hasAnyRole("USER")
 						.requestMatchers(mvc.pattern("/form/**")).hasRole("ADMIN")
