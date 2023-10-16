@@ -21,14 +21,16 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addViewController("/error_403").setViewName("error_403");
 	}
 	
+	
 	@Bean
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
-	/** Estos dos metodos los usamos para cambiar de idioma  **/
+
+	
 	@Bean
-	public LocaleResolver localResolver() {
+	public LocaleResolver localeResolver() {
 		SessionLocaleResolver localResolver = new SessionLocaleResolver();
 		localResolver.setDefaultLocale(new Locale("es", "ES"));
 		return localResolver;
@@ -44,7 +46,6 @@ public class MvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// TODO Auto-generated method stub
 		registry.addInterceptor(localeChangeInterceptor());
 	}
 	
