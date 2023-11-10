@@ -39,6 +39,7 @@ INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Kara', '
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Barry', 'Allen', 'allen@vengadores.com', '2023-08-07', '');
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Adam', 'Warlock', 'warlock@vengadores.com', '2023-08-07', '');
 
+
 /* Populate tabla productos */
 INSERT INTO productos (nombre, precio, create_at) VALUES('Panasonic Pantalla LCD', 259990, NOW());
 INSERT INTO productos (nombre, precio, create_at) VALUES('Soni Camara Digital DSC-W3220B', 123490, NOW());
@@ -47,6 +48,8 @@ INSERT INTO productos (nombre, precio, create_at) VALUES('Sony Notebook ZliD', 3
 INSERT INTO productos (nombre, precio, create_at) VALUES('Newlett Packard Multifuncional F2280', 69990, NOW());
 INSERT INTO productos (nombre, precio, create_at) VALUES('Bianchi Bicicleta Aro 26', 69990, NOW());
 INSERT INTO productos (nombre, precio, create_at) VALUES('Mica comoda 5 cajones', 299990, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Escritorio Ofina 2 modulos', 399990, NOW());
+
 
 /* Creamos algunas facturas */
 INSERT INTO facturas (descripcion, observacion, cliente_id, create_at) VALUES('Factura equipos de oficina', null, 1, NOW());
@@ -55,9 +58,11 @@ INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES(2, 1, 4);
 INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES(1, 1, 5);
 INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES(1, 1, 7);
 
+
 /** Creamos algunos usuarios con sus roles **/ 
 INSERT INTO `users` (username, password, enabled) VALUES ('andres', '$2a$10$xXU2aRk1/xqNMc5Vgc1i.OLD/tfZinuKm0iop8L0BKEHrKyuwDGZu', 1);
 INSERT INTO `users` (username, password, enabled) VALUES ('admin', '$2a$10$NbXHaTPfe2T7Im2JT8SPq.9gJ7vr7D8hLg0m9KXRbAWtHLpuOWGeO', 1)
+
 
 INSERT INTO `authorities` (user_id, authority) VALUES(1, 'ROLE_USER');
 INSERT INTO `authorities` (user_id, authority) VALUES(2, 'ROLE_USER');
